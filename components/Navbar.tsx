@@ -54,15 +54,13 @@ export default function Navbar() {
       >
         <a href="#top" className="flex items-center gap-2.5">
           <Image
-            src="/images/logo.png"
+            src="/images/logo-bracket.png"
             alt="GDG Thapar"
-            width={40}
-            height={24}
-            className={`w-auto transition-all duration-300 ${condensed ? "h-5" : "h-6"}`}
+            width={172}
+            height={80}
+            priority
+            className={`w-auto transition-all duration-300 ${condensed ? "h-7" : "h-9"}`}
           />
-          <span className={`font-bold transition-all duration-300 ${condensed ? "text-base" : "text-lg"}`}>
-            GDG Thapar
-          </span>
         </a>
 
         <nav className="hidden items-center gap-8 lg:flex">
