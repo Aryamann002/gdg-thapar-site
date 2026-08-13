@@ -3,6 +3,7 @@
 :root {
   --background: #f0f0f0;
   --foreground: #1e1e1e;
+  --dot: rgba(0, 0, 0, 0.13);
 }
 
 @theme inline {
@@ -25,7 +26,242 @@
   --color-brand-orange: #f46932;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 7rem;
+}
+
 body {
-  background: var(--background);
   color: var(--foreground);
+  /* ponytail: CSS dot-grid replaces a 121KB PNG repeated 6x in the Figma file.
+     Swap back to the export only if the texture proves non-uniform at 4K. */
+  background-color: var(--background);
+  background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* ---------- keyframes ---------- */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes word-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.5em) rotate(-3deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(0);
+  }
+}
+
+@keyframes grow-up {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--tilt, 0deg));
+  }
+  50% {
+    transform: translateY(-8px) rotate(var(--tilt, 0deg));
+  }
+}
+
+@keyframes float-a {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(var(--spin, 0deg));
+  }
+  50% {
+    transform: translate(10px, -14px) rotate(calc(var(--spin, 0deg) + 6deg));
+  }
+}
+
+@keyframes float-b {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(var(--spin, 0deg));
+  }
+  50% {
+    transform: translate(-12px, 10px) rotate(calc(var(--spin, 0deg) - 5deg));
+  }
+}
+
+@keyframes float-c {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(var(--spin, 0deg));
+  }
+  33% {
+    transform: translate(8px, 10px) rotate(calc(var(--spin, 0deg) + 4deg));
+  }
+  66% {
+    transform: translate(-6px, -8px) rotate(calc(var(--spin, 0deg) - 4deg));
+  }
+}
+
+@keyframes wobble {
+  0%,
+  100% {
+    transform: rotate(var(--tilt, 0deg));
+  }
+  50% {
+    transform: rotate(calc(var(--tilt, 0deg) + 3deg)) translateY(-3px);
+  }
+}
+
+/* ---------- scroll reveal ---------- */
+
+.reveal {
+  opacity: 0;
+}
+
+.reveal-in {
+  animation: rise 0.62s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-delay: calc(var(--i, 0) * 80ms);
+}
+
+/* ---------- ambient motion ---------- */
+
+.float-a {
+  animation: float-a 7s ease-in-out infinite;
+}
+.float-b {
+  animation: float-b 9s ease-in-out infinite;
+}
+.float-c {
+  animation: float-c 11s ease-in-out infinite;
+}
+.bob {
+  animation: bob 4s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 260ms);
+}
+
+/* Skyline bars: hidden until revealed, then grow left-to-right. */
+.bar {
+  transform: scaleY(0);
+}
+.bar-in {
+  animation: grow-up 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-delay: calc(var(--i, 0) * 40ms);
+}
+
+/* Project pills idle-wobble, and settle straight + enlarged on hover. */
+.pill-wobble {
+  animation: wobble var(--dur, 5s) ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 180ms);
+}
+.pill-wobble:hover {
+  animation: none;
+  transform: rotate(0deg) scale(1.1);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ---------- interaction primitives ---------- */
+
+/* Card lifts on hover. */
+.lift {
+  transition:
+    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.25s ease;
+}
+.lift:hover {
+  transform: translateY(-6px);
+}
+
+/* Button presses down into its own offset shadow. */
+.press {
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+.press:active {
+  transform: translateY(3px);
+  box-shadow: none !important;
+}
+
+/* Nav link underline wipe. */
+.wipe {
+  position: relative;
+}
+.wipe::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  height: 2px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.25s ease;
+}
+.wipe:hover::after,
+.wipe[data-active="true"]::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ---------- scroll-linked parallax (progressive enhancement) ---------- */
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes drift {
+      to {
+        translate: 0 var(--drift, -70px);
+      }
+    }
+    .parallax {
+      animation: drift linear both;
+      animation-timeline: scroll();
+    }
+  }
+}
+
+/* ---------- reduced motion: kill everything ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal,
+  .reveal-in {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
