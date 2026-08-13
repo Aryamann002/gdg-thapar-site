@@ -1,66 +1,25 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const links = [
-  { label: "PROJECTS", href: "#projects", id: "projects", badge: "NEW!" },
-  { label: "EVENTS", href: "#events", id: "events" },
-  { label: "DEPARTMENTS", href: "#departments", id: "departments" },
-  { label: "TEAM", href: "#team", id: "team" },
-  { label: "ALUMNI", href: "#alumni", id: "alumni" },
+  { label: "PROJECTS", href: "#projects", badge: "NEW!" },
+  { label: "EVENTS", href: "#events" },
+  { label: "DEPARTMENTS", href: "#departments" },
+  { label: "TEAM", href: "#team" },
+  { label: "ALUMNI", href: "#alumni" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [condensed, setCondensed] = useState(false);
-  const [active, setActive] = useState<string | null>(null);
-
-  useEffect(() => {
-    const onScroll = () => setCondensed(window.scrollY > 40);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  // Scrollspy: highlight the section currently nearest the top of the viewport.
-  useEffect(() => {
-    const sections = links
-      .map((l) => document.getElementById(l.id))
-      .filter((el): el is HTMLElement => el !== null);
-    if (!sections.length) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-        if (visible) setActive(visible.target.id);
-      },
-      { rootMargin: "-20% 0px -70% 0px" },
-    );
-    sections.forEach((s) => observer.observe(s));
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <header className="sticky top-4 z-50 mx-auto w-[calc(100%-2rem)] max-w-6xl">
-      <div
-        className={`flex items-center justify-between rounded-2xl border border-ink/80 bg-paper/70 backdrop-blur-xl transition-all duration-300 sm:px-7 ${
-          condensed
-            ? "px-5 py-2 shadow-[0_8px_20px_rgba(0,0,0,0.14)]"
-            : "px-5 py-3 shadow-[0_6px_8px_rgba(0,0,0,0.08)]"
-        }`}
-      >
+      <div className="flex items-center justify-between rounded-2xl border border-ink/80 bg-paper/70 px-5 py-3 shadow-[0_6px_8px_rgba(0,0,0,0.08)] backdrop-blur-xl sm:px-7">
         <a href="#top" className="flex items-center gap-2.5">
-          <Image
-            src="/images/logo-bracket.png"
-            alt="GDG Thapar"
-            width={172}
-            height={80}
-            priority
-            className={`w-auto transition-all duration-300 ${condensed ? "h-7" : "h-9"}`}
-          />
+          <Image src="/images/logo.png" alt="GDG Thapar" width={40} height={24} className="h-6 w-auto" />
+          <span className="font-bold text-lg">GDG Thapar</span>
         </a>
 
         <nav className="hidden items-center gap-8 lg:flex">
@@ -68,13 +27,12 @@ export default function Navbar() {
             <a
               key={link.label}
               href={link.href}
-              data-active={active === link.id}
-              className="wipe flex items-center gap-1.5 text-sm font-medium tracking-wide transition-colors hover:text-brand-blue data-[active=true]:text-brand-blue"
+              className="flex items-center gap-1.5 text-sm font-medium tracking-wide hover:text-brand-blue"
             >
               {link.label}
               {link.badge && (
                 <span className="flex items-center gap-1.5 text-xs font-semibold italic text-brand-red">
-                  <Image src="/images/dot-separator.svg" alt="" width={5} height={5} className="size-1" />
+                  <span className="size-1 rounded-full bg-ink" />
                   {link.badge}
                 </span>
               )}
@@ -82,7 +40,7 @@ export default function Navbar() {
           ))}
           <a
             href="#form"
-            className="press rounded-full bg-ink px-6 py-2.5 text-sm font-bold uppercase text-paper transition hover:bg-black"
+            className="rounded-full bg-ink px-6 py-2.5 text-sm font-bold uppercase text-paper hover:bg-black"
           >
             Form Link
           </a>
@@ -102,13 +60,13 @@ export default function Navbar() {
       </div>
 
       {open && (
-        <nav className="reveal-in mt-2 flex flex-col gap-1 rounded-2xl border border-ink/80 bg-paper p-4 shadow-lg lg:hidden">
+        <nav className="mt-2 flex flex-col gap-1 rounded-2xl border border-ink/80 bg-paper p-4 shadow-lg lg:hidden">
           {links.map((link) => (
             <a
               key={link.label}
               href={link.href}
               onClick={() => setOpen(false)}
-              className="rounded-lg px-3 py-2.5 text-sm font-medium transition hover:bg-ink/5"
+              className="rounded-lg px-3 py-2.5 text-sm font-medium hover:bg-ink/5"
             >
               {link.label}
             </a>
@@ -116,7 +74,7 @@ export default function Navbar() {
           <a
             href="#form"
             onClick={() => setOpen(false)}
-            className="press mt-2 rounded-full bg-ink px-6 py-3 text-center text-sm font-bold uppercase text-paper"
+            className="mt-2 rounded-full bg-ink px-6 py-3 text-center text-sm font-bold uppercase text-paper"
           >
             Form Link
           </a>

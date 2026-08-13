@@ -22,7 +22,7 @@ export default function Footer() {
           </div>
           <a
             href="#form"
-            className="press rounded-full border border-[#505050] bg-[#505050] px-8 py-3.5 text-sm font-semibold uppercase transition hover:bg-[#666]"
+            className="rounded-full border border-[#505050] bg-[#505050] px-8 py-3.5 text-sm font-semibold uppercase"
           >
             Form Link
           </a>

@@ -17,13 +17,6 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${poppins.variable} antialiased`}>
-      <head>
-        {/* Scroll reveals start at opacity 0 and are un-hidden by JS. Without JS,
-            show everything immediately rather than rendering a blank page. */}
-        <noscript>
-          <style>{`.reveal{opacity:1 !important}`}</style>
-        </noscript>
-      </head>
       <body className="min-h-screen bg-paper text-ink font-sans">
         {children}
       </body>

@@ -42,6 +42,3 @@ next-env.d.ts
 
 # ruflo/claude-flow local state
 .claude-flow/
-
-# verify.mjs output
-.verify-screenshots/
