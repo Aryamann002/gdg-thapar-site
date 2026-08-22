@@ -17,7 +17,7 @@ export const events: GdgEvent[] = [
   {
     id: "devfest",
     name: "DevFest",
-    logo: "/images/event-devfest.png",
+    logo: "/images/devfest.png",
     accent: "#4882fb",
     border: "border-brand-blue-2",
     connector: "/images/line-a.svg",
