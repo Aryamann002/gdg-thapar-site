@@ -36,7 +36,7 @@ export default function Hero() {
 
         <a
           href="#events"
-          className="mt-8 inline-flex items-center gap-3 rounded-full border border-white bg-ink px-8 py-3 text-sm font-bold uppercase text-white shadow-[0_4px_0_0_white]"
+          className="mt-8 inline-flex items-center gap-3 rounded-full border border-paper bg-ink px-8 py-3 text-sm font-bold uppercase text-paper shadow-[0_4px_0_0_var(--paper)]"
         >
           Learn more
           <Image src="/images/arrow-cta.svg" alt="" width={14} height={14} />

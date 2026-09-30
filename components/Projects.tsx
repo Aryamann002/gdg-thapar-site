@@ -41,7 +41,7 @@ export default function Projects() {
               <span
                 key={s.label}
                 className={`rounded-full px-5 py-2.5 text-base font-medium ${
-                  s.state === "progress" ? "bg-black/10 text-ink" : "bg-[#ccf6c5] text-ink"
+                  s.state === "progress" ? "bg-ink/10 text-ink" : "bg-[#ccf6c5] text-ink"
                 }`}
               >
                 {s.label}

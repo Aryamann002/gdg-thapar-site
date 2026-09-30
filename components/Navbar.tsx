@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const links = [
   { label: "PROJECTS", href: "#projects", badge: "NEW!" },
@@ -40,23 +41,27 @@ export default function Navbar() {
           ))}
           <a
             href="#form"
-            className="rounded-full bg-ink px-6 py-2.5 text-sm font-bold uppercase text-paper hover:bg-black"
+            className="rounded-full bg-ink px-6 py-2.5 text-sm font-bold uppercase text-paper hover:bg-black dark:hover:bg-white"
           >
             Form Link
           </a>
+          <ThemeToggle />
         </nav>
 
-        <button
-          type="button"
-          aria-label="Toggle menu"
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-          className="flex flex-col gap-1.5 lg:hidden"
-        >
-          <span className={`h-0.5 w-6 bg-ink transition ${open ? "translate-y-2 rotate-45" : ""}`} />
-          <span className={`h-0.5 w-6 bg-ink transition ${open ? "opacity-0" : ""}`} />
-          <span className={`h-0.5 w-6 bg-ink transition ${open ? "-translate-y-2 -rotate-45" : ""}`} />
-        </button>
+        <div className="flex items-center gap-2 lg:hidden">
+          <ThemeToggle />
+          <button
+            type="button"
+            aria-label="Toggle menu"
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+            className="flex flex-col gap-1.5"
+          >
+            <span className={`h-0.5 w-6 bg-ink transition ${open ? "translate-y-2 rotate-45" : ""}`} />
+            <span className={`h-0.5 w-6 bg-ink transition ${open ? "opacity-0" : ""}`} />
+            <span className={`h-0.5 w-6 bg-ink transition ${open ? "-translate-y-2 -rotate-45" : ""}`} />
+          </button>
+        </div>
       </div>
 
       {open && (
